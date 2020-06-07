@@ -1,0 +1,21 @@
+#!/bin/bash
+
+usage () {
+	echo "$0 <prefix> <stock img> <openwrt img>
+" >& 2
+}
+
+if [ $# -ne 3 ]; then
+	usage
+	exit 1
+fi
+
+PREFIX="$1"
+IMG_STOCK="$2"
+IMG_OWRT="$3"
+
+dd if=/dev/zero of="$PREFIX-tftp-recovery.bin" bs=196608 count=1
+dd if="$IMG_STOCK" of="$PREFIX-factory.bin" bs=131584 count=1
+dd if="$PREFIX-factory.bin" of="$PREFIX-tftp-recovery.bin" bs=512 skip=1 conv=notrunc oflag=append
+cat "$IMG_OWRT" >> "$PREFIX-factory.bin"
+cat "$IMG_OWRT" >> "$PREFIX-tftp-recovery.bin"
