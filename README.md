@@ -46,7 +46,7 @@ Again, I'm not responsible for any damages. I personally broke my C20 v5 once by
 
 ### You will need
 
-1. **mktftpimg** binary. Build it yourself, or download it from [releases](https://github.com/ashegoulding/tp-link_c20-v5.dev/releases)
+1. **mktftpimg** binary. Build it yourself or download it from [releases](https://github.com/ashegoulding/tp-link_c20-v5.dev/releases)
 2. A stock image of your variant. Just google your variant and download it from TP-Link's website
 
 ### On Linux
@@ -56,11 +56,14 @@ Again, I'm not responsible for any damages. I personally broke my C20 v5 once by
 ```
 
 ### On Windows(cmd.exe)
+
 ```
 mktftpimg.exe Archer_C20v5_US_0.9.1_4.16_up_boot[181213-rel33336].bin tp_recovery.bin 512 196608
 ```
 
 ### Notes
+`Archer_C20v5_US_0.9.1_4.16_up_boot[181213-rel33336].bin` is the name of the stock image. Change it to your stock image.
+
 **512** is the size of header(`sizeof(struct fw_header)` is 512: [exb A](https://github.com/openwrt/openwrt/blob/master/tools/firmware-utils/src/mktplinkfw.c), [exb B](https://github.com/openwrt/openwrt/blob/master/tools/firmware-utils/src/mktplinkfw2.c)). The actual binary that the hardware loads starts after the header.
 
 **196608**(0x30000) is the size of the first boot loader region. The TFTP recovery program skips 196608 bytes of the downloaded image when copying into the flash. Stupid design if you ask me. This number(0x30000) appears on the serial output when performing TFTP reset. 0x30000 is probably the size of the first boot loader for all variants. But you can only find this out if you have the serial console. If you think it's not for your variant, well. Shotgun it(trial and error). I highly doubt it's other than 0x30000, though.
