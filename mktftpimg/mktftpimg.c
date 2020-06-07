@@ -8,7 +8,7 @@ int main (const int argc, const char **args) {
 	static const uint8_t ZERO = 0;
 	const char *program = args[0];
 	FILE *fin = NULL, *fout = NULL;
-	size_t zeros, skip;
+	unsigned long zeros, skip;
 	int ret = 0;
 	long fin_size;
 	size_t load_size;
@@ -30,11 +30,11 @@ int main (const int argc, const char **args) {
 		return 1;
 	}
 
-	if (sscanf(args[3], "%zu", &skip) != 1) {
+	if (sscanf(args[3], "%lu", &skip) != 1) {
 		fprintf(stderr, "Invalid arg: <skip>\n");
 		return 1;
 	}
-	if (sscanf(args[4], "%zu", &zeros) != 1) {
+	if (sscanf(args[4], "%lu", &zeros) != 1) {
 		fprintf(stderr, "Invalid arg: <zero>\n");
 		return 1;
 	}
@@ -69,7 +69,7 @@ int main (const int argc, const char **args) {
 			break;
 		}
 		if ((size_t)fin_size < skip) {
-			fprintf(stderr, "size of <in file> is smaller than <skip> (%zu < %zu)\n", (size_t)fin_size, skip);
+			fprintf(stderr, "size of <in file> is smaller than <skip> (%lu < %ld)\n", fin_size, skip);
 			ret = 2;
 			break;
 		}
